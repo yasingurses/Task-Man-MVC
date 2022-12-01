@@ -1,0 +1,34 @@
+﻿@model EntityLayer.Concrete.User
+@using EntityLayer.Enums
+@{
+    ViewData["Title"] = "Ekle";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h1>Kullanıcı Ekle</h1>
+
+<form asp-action="Ekle" asp-controller="Admin" method="post">
+    <div class="mb-3">
+        <label for="hastane_ad" class="form-label">Kullanıcı Adı</label>
+        <input asp-for="UserName" type="text" class="form-control" >
+
+    </div>
+    <div class="mb-3">
+        <label for="hastane_sehir" class="form-label">Kullanıcı Şifresi</label>
+        <input type="password" class="form-control" asp-for="UserPassword">
+    </div>
+    <div class="mb-3">
+        <label for="hastane_sehir" class="form-label">Kullanıcı Rolü  </label>
+        <input type="text" class="form-control" asp-for="UserRole">
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Kullanıcı EKLE</button>
+</form>
+<div>
+   <select>
+       <option value="@Status.Oluştruldu">Iluşturuldu</option>
+        <option value="@Status.Devamediyor">Devam Ediyor.</option>
+        <option value="@Status.Bitti">Bitti</option>
+   </select>
+</div>
+

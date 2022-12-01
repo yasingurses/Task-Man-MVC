@@ -1,0 +1,60 @@
+﻿@using EntityLayer.Enums
+@model EntityLayer.Concrete.Gorevler
+
+@{
+    ViewData["Title"] = "Guncelle";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using EntityLayer.Enums
+<h1>Görevi Güncelle</h1>
+
+<form asp-action="Guncelle" asp-controller="Gorev" method="post">
+    <div style="display:none" class="mb-3">
+        <label class="form-label">Görev ID </label>
+        <input type="text" class="form-control" asp-for="GorevID">
+    </div>
+    @if (Model.GorevDurumu==Status.Oluştruldu.ToString())
+    {
+        
+    <div class="mb-3">
+        <label   class="form-label">Görev Başlığı</label>
+        <input type="text" class="form-control" asp-for="GorevTitle">
+    </div>
+    <div class="mb-3">
+        <label   class="form-label">Görevi Acıklaması</label>
+        <input type="text" class="form-control" asp-for="GorevAciklama">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Görev Sahibi </label>
+        <input type="text" class="form-control" asp-for="GorevSahibi">
+    </div>
+    <div class="mb-3">
+         
+         <select class="form-control" asp-for="GorevDurumu">
+            <option value="@Status.Oluştruldu">Oluşturuldu</option>
+            <option value="@Status.Devamediyor">Devam Ediyor.</option>
+            <option value="@Status.Bitti">Bitti</option>
+        </select>
+    </div>
+    }else{
+        <div class="mb-3">
+            @if (Model.GorevDurumu==Status.Devamediyor.ToString())
+            {
+                <select class="form-control" asp-for="GorevDurumu">
+                    <option value="@Status.Devamediyor">Devam Ediyor.</option>
+                    <option value="@Status.Bitti">Bitti</option>
+                </select>
+            }else{
+                <select class="form-control" asp-for="GorevDurumu">
+                    <option value="@Status.Bitti">Bitti</option>
+                </select>
+            }
+            
+        </div> 
+    }
+    
+
+    <button type="submit" class="btn btn-primary">Görevi GÜNCELLE </button>
+</form>
+
+

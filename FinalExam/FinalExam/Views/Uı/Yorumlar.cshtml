@@ -1,0 +1,41 @@
+﻿@model List<EntityLayer.Concrete.Yorum>
+@{
+    ViewData["Title"] = "Yorumlar";
+    Layout = "~/Views/Shared/_UıLayout.cshtml";
+}
+<div class="container">
+<h1>@ViewBag.gorevid id li görevin Yorumları</h1>
+
+ 
+<table class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Yorum ID</th>
+            <th>Yorum yapan</th>
+            <th>Metin</th>
+
+
+       
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Id</td>
+                <td>@a.Kullanıcı</td>
+                <td>@a.YorumMetni</td>
+                <td>
+                </td>
+
+
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+</div>

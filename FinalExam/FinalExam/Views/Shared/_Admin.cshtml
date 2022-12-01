@@ -1,0 +1,309 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http.Extensions
+@using System.IO
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/admin/assets/images/favicon.png">
+    <title>Rea Teknology</title>
+    <!-- Custom CSS -->
+    <link href="~/admin/dist/css/style.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+  
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+                        <i class="ti-menu ti-close"></i>
+                    </a>
+       
+                    <div class="navbar-brand">
+                        <!-- Logo icon -->
+                        <a href="#">
+                            <b class="logo-icon">
+                                <!-- Dark Logo icon -->
+                                <img src="~/admin/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                                <!-- Light Logo icon -->
+                                <img src="~/admin/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
+                            </b>
+                      
+
+                        </a>
+                    </div>
+                
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                       data-toggle="collapse" data-target="#navbarSupportedContent"
+                       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="ti-more"></i>
+                    </a>
+                </div>
+               
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+               
+                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
+ 
+
+                    </ul>
+                     
+                    <ul class="navbar-nav float-right">
+                      
+                        <li class="nav-item d-none d-md-block">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <form>
+                                    <div class="customize-input">
+                                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
+                                               type="search" placeholder="Arama Yap" aria-label="Search">
+                                        <i class="form-control-icon" data-feather="search"></i>
+                                    </div>
+                                </form>
+                            </a>
+                        </li>
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <img src="~/admin/assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
+                                     width="40">
+                                <span class="ml-2 d-none d-lg-inline-block">
+                                    <span>HoşGeldin,</span> <span class="text-dark">Lütfi Gürses</span> <i data-feather="chevron-down"
+                                                                                                           class="svg-icon"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"  asp-action="Cıkıs" asp-controller="Admin">
+                                    <i data-feather="power"
+                                       class="svg-icon mr-2 ml-1"></i>
+                                    Çıkış Yap
+                                </a>
+
+
+                            </div>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar" data-sidebarbg="skin6">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+
+                        @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                        {
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-small-cap"><span class="hide-menu">ADMİN ROLÜYLE GİRİŞ YAPTINIZ</span></li>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                               aria-expanded="false">
+                                            <i data-feather="grid" class="feather-icon"></i><span class="hide-menu">Tablolar </span>
+                                        </a>
+                                        <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                            <li class="sidebar-item">
+                                                <a asp-action="User" asp-controller="Admin" class="sidebar-link">
+                                                    <span class="hide-menu">
+                                               Kullanıcı Tablosu
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-item">
+                                                <a asp-action="Gorev" asp-controller="Gorev" class="sidebar-link">
+                                                    <span class="hide-menu">
+                                                        Görev Tablosu
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link sidebar-link" asp-action="Chat" asp-controller="Admin"
+                               aria-expanded="false">
+                                            <i data-feather="message-square" class="feather-icon"></i><span class="hide-menu">Online Chat</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-divider"></li>
+                                    <li class="nav-small-cap"><span class="hide-menu">İşlemler</span></li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link sidebar-link" asp-action="Cıkıs" asp-controller="Admin"
+                               aria-expanded="false">
+                                            <i data-feather="log-out" class="feather-icon"></i><span class="hide-menu">Çıkış Yap</span>
+                                        </a>
+                                    </li>
+
+                                   
+
+                             
+                                }
+                                if (User.IsInRole("User"))
+                                {
+                                    <li class="nav-small-cap"><span class="hide-menu">USER ROLÜYLE GİRİŞ YAPTINIZ</span></li>
+                                   
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link sidebar-link" asp-action="Chat" asp-controller="Admin"
+                               aria-expanded="false">
+                                            <i data-feather="message-square" class="feather-icon"></i><span class="hide-menu">Online Chat</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-divider"></li>
+                                    <li class="nav-small-cap"><span class="hide-menu">İşlemler</span></li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link sidebar-link" asp-action="Cıkıs" asp-controller="Admin"
+                               aria-expanded="false">
+                                            <i data-feather="log-out" class="feather-icon"></i><span class="hide-menu">Çıkış Yap</span>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        }
+
+                            
+
+                        
+                       
+
+                    </ul>
+                       
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+   
+        </aside>
+      
+        <div class="page-wrapper">
+        
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                         
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="/" class="text-muted">Tablo</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Chat</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                @RenderBody()
+
+
+
+            </div>
+
+            <footer class="footer text-center text-muted">
+                Copyright 2017 - 2022 © ReaTeknology
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+
+    <script src="~/admin/assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/admin/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="~/admin/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <!-- apps -->
+    <script src="~/admin/dist/js/app-style-switcher.js"></script>
+    <script src="~/admin/dist/js/feather.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/admin/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/admin/assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <!-- themejs -->
+    <!--Menu sidebar -->
+    <script src="~/admin/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/admin/dist/js/custom.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.5.6/js/dataTables.colReorder.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+              $('#example').DataTable({
+                  "language": {
+                     "url": "//cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json"
+                 },
+                  dom: 'Bfrtip',
+                  colReorder: true,
+                  stateSave: true,
+                  buttons: [
+                      'copy', 'csv', {
+                          extend: 'excel', text: 'Excel indir', exportOptions: {
+                              stripHtml: false,
+                              columns: ':visible'
+                          }
+                      }, 'pdf', 'print', { extend: 'colvis', text: 'Tablo Düzeni', postfixButtons: [{ extend: 'colvisRestore', text: 'Eski düzene dön.' }] },
+                  ]
+              });
+          });
+    </script>
+    @await Component.InvokeAsync("NToastNotify")
+</body>
+
+</html>

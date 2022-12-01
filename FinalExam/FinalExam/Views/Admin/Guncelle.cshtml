@@ -1,0 +1,21 @@
+﻿@model EntityLayer.Concrete.UserClient
+@{
+    ViewData["Title"] = "Guncelle";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h1>Kullanıcıyı Görüntüle</h1>
+
+<form asp-action="Guncelle" asp-controller="Admin" method="post">
+    <div  class="mb-3">
+        <label   class="form-label">Kullanıcı ID </label>
+        <input type="text" class="form-control" asp-for="id">
+    </div>
+    <div class="mb-3">
+        <label  class="form-label">Kullanıcı Adı</label>
+        <input type="text" class="form-control" asp-for="Name">
+    </div>
+  
+ 
+    @*<button type="submit" class="btn btn-primary">Kullanıcıyı GÜNCELLE </button>*@
+</form>

@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "Gorev";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using EntityLayer.Concrete
+@using EntityLayer.Enums
+@model List<Gorevler>
+ 
+
+
+
+    <div class=" ">
+
+        <a href="/Gorev/Ekle" class="btn btn-primary">Görev Ekle</a>
+
+
+    </div>
+
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Görev ID</th>
+                <th>Görev Başlığı</th>
+                <th>Görev Acıklaması</th>
+                <th>Görev Sahibi</th>
+                <th>Görev Statüsü</th>
+                <th>Tarih</th>
+
+
+                <th>İŞLEMLER</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>@a.GorevID</td>
+                    <td>@a.GorevTitle</td>
+                    <td>@a.GorevAciklama</td>
+                    <td>@a.GorevSahibi</td>
+                    <td>@a.GorevDurumu</td>
+                    <td>@a.GorevTarihi</td>
+
+
+                    <td>
+                     @if(a.GorevDurumu==Status.Oluştruldu.ToString()){
+                        <a onclick="return confirm('Silmek istediğinize eminmisiniz?');" asp-controller="Gorev" asp-action="Sil" asp-route-id="@a.GorevID" class="btn btn-danger rounded-pill ">sil</a>
+                     }
+                     else{
+                        <a onclick="return confirm('Silmek istediğinize eminmisiniz?');" asp-controller="Gorev" asp-action="Sil" asp-route-id="@a.GorevID" class="btn btn-danger rounded-pill disabled">sil</a>
+                     }
+                     
+                        
+
+                    <a asp-controller="Gorev" asp-action="Guncelle" asp-route-id="@a.GorevID" class="btn btn-warning rounded-pill">güncelle</a>
+                    <a class="btn btn-info rounded-pill"  asp-controller="Yorum" asp-action="Ekle" asp-route-gorevId="@a.GorevID">Yorum Yap</a>
+                    <a class="btn btn-primary rounded-pill" asp-controller="Yorum" asp-action="Yorumlar" asp-route-gorevId="@a.GorevID">Yorumlar</a>
+                    </td>
+
+                    
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+
+
+
+

@@ -1,0 +1,31 @@
+﻿@model EntityLayer.Concrete.Gorevler
+@using EntityLayer.Enums
+@{
+    ViewData["Title"] = "Ekle";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h1>Görev Ekle</h1>
+
+<form asp-action="Ekle" asp-controller="Gorev" method="post">
+    <div class="mb-3">
+        <label   class="form-label">Görev Başlığı</label>
+        <input asp-for="GorevTitle" type="text" class="form-control">
+
+    </div>
+    <div class="mb-3">
+        <label class="form-label">GorevAciklama</label>
+        <input type="text" class="form-control" asp-for="GorevAciklama">
+    </div>
+    <div class="mb-3">
+        <label for="hastane_sehir" class="form-label">Görev Sahibi  </label>
+        <input type="text" class="form-control" asp-for="GorevSahibi">
+    </div>
+    <div class="mb-3">
+        <label  class="form-label">Görev Tarihi  </label>
+        <input type="datetime-local" class="form-control" asp-for="GorevTarihi">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Görev EKLE</button>
+</form>
+

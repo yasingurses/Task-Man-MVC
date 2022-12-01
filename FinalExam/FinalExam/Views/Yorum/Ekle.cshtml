@@ -1,0 +1,30 @@
+﻿@model EntityLayer.Concrete.Yorum
+
+@{
+    ViewData["Title"] = "Ekle";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="container">
+    <h1>Ekle</h1>
+ 
+<form asp-action="Ekle" asp-controller="Uı" method="post">
+    <div class="mb-3">
+        <label class="form-label">Görev Başlığı</label>
+        <input style="display:none" value="@ViewBag.gorevid" asp-for="GorevId" type="text" class="form-control">
+
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Yorum Metni</label>
+        <textarea class="form-control" asp-for="YorumMetni">
+
+        </textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Yorum Sahibi  </label>
+        <input type="text" class="form-control" asp-for="Kullanıcı">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Yorum EKLE</button>
+</form>
+
+</div>
